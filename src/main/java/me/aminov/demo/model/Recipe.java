@@ -1,18 +1,27 @@
 package me.aminov.demo.model;
+import lombok.ToString;
 
 import java.util.List;
 
-public class Recipe {
-    String name;
-    int timeCooking;
-    List<Ingredients> ingredientsList;
-    List<String> steps;
 
-    public Recipe(String name, int timeCooking, List<Ingredients> ingredientsList, List<String> steps) {
-       setName(name);
+@ToString
+public class Recipe {
+    private Integer id;
+    private static int counter = 0;
+    private String name;
+    private int timeCooking;
+    private final List<Ingredients> ingredientsList;
+    private final List<String> steps;
+
+    public Recipe(String name,
+                  int timeCooking,
+                  List<Ingredients> ingredientsList,
+                  List<String> steps) {
+        setName(name);
         setTimeCooking(timeCooking);
         this.ingredientsList = ingredientsList;
         this.steps = steps;
+        id = counter++;
     }
 
     public String getName() {
@@ -40,15 +49,8 @@ public class Recipe {
         return ingredientsList;
     }
 
-    public void setIngredientsList(List<Ingredients> ingredientsList) {
-        this.ingredientsList = ingredientsList;
-    }
-
     public List<String> getSteps() {
         return steps;
     }
-
-    public void setSteps(List<String> steps) {
-        this.steps = steps;
-    }
 }
+

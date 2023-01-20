@@ -4,11 +4,14 @@ public class Ingredients {
     private String name;
     private int numberOfIngredients;
     private String measure;
+    private  Integer id;
+private static int counter=0;
 
     public Ingredients(String name, int numberOfIngredients, String measure) {
         setName(name);
         setNumberOfIngredients(numberOfIngredients);
         setMeasure(measure);
+        id=counter++;
     }
 
     public String getName() {

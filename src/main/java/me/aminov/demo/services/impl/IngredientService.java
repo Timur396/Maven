@@ -17,8 +17,7 @@ public class IngredientService implements me.aminov.demo.services.IngredientServ
     }
 
     @Override
-    public void getIngredient(int number) {
-        ingredientsMap.get(number);
-
+    public Ingredients getIngredient(int number) {
+        return null;
     }
 }
