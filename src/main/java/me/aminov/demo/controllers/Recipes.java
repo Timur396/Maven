@@ -4,9 +4,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Recipe {
+public class Recipes {
 
-@GetMapping
+    @GetMapping
     public String helloWorld() {
         return "Приложение запущено";
     }
