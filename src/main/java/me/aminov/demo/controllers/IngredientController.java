@@ -1,6 +1,7 @@
 package me.aminov.demo.controllers;
 
 import me.aminov.demo.model.Ingredients;
+import me.aminov.demo.model.Recipe;
 import me.aminov.demo.services.IngredientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,4 +31,15 @@ public class IngredientController {
         Ingredients ingredients = ingredientService.getIngredient(counter);
         return ResponseEntity.ok(ingredients);
     }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Ingredients> editIngredient(@PathVariable int id, @RequestBody Ingredients ingredients) {
+        ingredientService.editIngridient(id, ingredients);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Ingredients> deleteIngredient(@PathVariable int id) {
+        ingredientService.deleteIngridients(id);
+    return ResponseEntity.ok().build()}
 }

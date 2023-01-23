@@ -20,4 +20,14 @@ public class IngredientService implements me.aminov.demo.services.IngredientServ
     public Ingredients getIngredient(int number) {
         return null;
     }
+
+    @Override
+    public void deleteIngridients(int id) {
+        ingredientsMap.remove(id);
+    }
+
+    @Override
+    public void editIngridient(int id, Ingredients ingredients) {
+        ingredientsMap.put(id, ingredients);
+    }
 }

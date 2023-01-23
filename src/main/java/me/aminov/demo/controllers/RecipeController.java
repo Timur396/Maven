@@ -34,4 +34,24 @@ public class RecipeController {
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Recipe> editRecipe(@PathVariable int id, @RequestBody Recipe recipe) {
+        recipeService.editRecipe(id, recipe);
+        return ResponseEntity.ok().body(recipe);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Recipe> deleteRecipe(@PathVariable int id) {
+        recipeService.deleteRecipe(id);
+        return ResponseEntity.ok().build();}
 }
+//    Добавление ингредиента.
+//        Редактирование ингредиента по id.
+//        Удаление ингредиента.
+//
+//        Получение полного списка ингредиентов.
+//
+//
+//
+//
+//
