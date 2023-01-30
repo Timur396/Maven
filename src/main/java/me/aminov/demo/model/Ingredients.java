@@ -1,8 +1,21 @@
 package me.aminov.demo.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ingredients {
+    @NotBlank
     private String name;
+    @PositiveOrZero
     private int numberOfIngredients;
+    @NotBlank
     private String measure;
     private  Integer id;
 private static int counter=0;
@@ -14,36 +27,6 @@ private static int counter=0;
         id=counter++;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        if (!name.isBlank() && name != null) {
-            this.name = name;
-        } else this.name = "Разное";
-    }
-
-
-    public int getNumberOfIngredients() {
-        return numberOfIngredients;
-    }
-
-    public void setNumberOfIngredients(int numberOfIngredients) {
-        if (numberOfIngredients >= 0) {
-            this.numberOfIngredients = numberOfIngredients;
-        } else this.numberOfIngredients = 0;
-
-    }
-
-    public String getMeasure() {
-        return measure;
-    }
-
-    public void setMeasure(String measure) {
-        if (measure != null && !measure.isBlank()) {
-            this.measure = measure;
-        } else this.measure = "единиц";
-    }
 }
 

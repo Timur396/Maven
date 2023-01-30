@@ -1,19 +1,32 @@
 package me.aminov.demo.controllers;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import me.aminov.demo.model.Ingredients;
-import me.aminov.demo.model.Recipe;
 import me.aminov.demo.services.IngredientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/ingredients")
+@Tag(name = "Контроллер ингридиентов",description = "CRUD- операции для работы с ингридиентами")
 public class IngredientController {
     private final IngredientService ingredientService;
 
     public IngredientController(IngredientService ingredientService) {
         this.ingredientService = ingredientService;
     }
+    @Operation(
+            summary = "Добавление ингредиента в список",
+            description = "Требуется передать с помощью JSON объект ингредиента"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Ингредиент добавлен"
+            )
+    })
 
     @PostMapping("/ingredient")
     public void add(@RequestBody Ingredients ingredients) {
@@ -41,5 +54,7 @@ public class IngredientController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Ingredients> deleteIngredient(@PathVariable int id) {
         ingredientService.deleteIngridients(id);
-    return ResponseEntity.ok().build()}
+        return ResponseEntity.ok().build();
+    }
+
 }
