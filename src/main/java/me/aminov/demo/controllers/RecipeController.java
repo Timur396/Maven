@@ -24,13 +24,29 @@ public class RecipeController {
 
 
     Recipe recipe = new Recipe("Пюре", 1, new ArrayList<>(), new ArrayList<>());
-
+    @Operation(
+            summary = "Добавление рецепта",
+            description = "Необходимо передать с помощью JSON объект рецепта"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Рецепт добавлен"
+            )
+    })
     @PostMapping("/recipe")
     public Recipe addRecipe(@RequestBody Recipe recipe) {
         recipeService.addRecipe(recipe);
         return recipeService.getRecipe(0);
     }
-
+    @Operation(
+            summary = "Показать рецепт"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200"
+            )
+    })
     @GetMapping("/recipeId")
     public ResponseEntity<Recipe> getRecipeId(@PathVariable int id) {
         Recipe result = recipeService.getRecipe(id);
@@ -40,13 +56,13 @@ public class RecipeController {
         return ResponseEntity.notFound().build();
     }
     @Operation(
-            summary = "Добавление рецепта ",
-            description = "Необходимо передать с помощью JSON объект рецепта"
+            summary = "Изменить рецепт ",
+            description = "Введите id рецепта, который нужно изменить"
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Рецепт добавлен"
+                    description = "Рецепт изменен"
             )
     })
     @PutMapping("/edit/{id}")
@@ -54,7 +70,16 @@ public class RecipeController {
         recipeService.editRecipe(id, recipe);
         return ResponseEntity.ok().body(recipe);
     }
-
+    @Operation(
+            summary = "Удалить рецепт ",
+            description = "Введите id рецепта, который нужно удалить"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Рецепт удален"
+            )
+    })
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Recipe> deleteRecipe(@PathVariable int id) {
         recipeService.deleteRecipe(id);
