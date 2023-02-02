@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Service
 public class IngredientServiceImpl implements me.aminov.demo.services.IngredientService {
-
+    private String ingredientFileName;
     final private FileService fileService;
     Map<Integer, Ingredients>ingredientsMap=new HashMap<>();
     static int counter=0;
@@ -49,7 +49,7 @@ public class IngredientServiceImpl implements me.aminov.demo.services.Ingredient
     private void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(ingredientsMap);
-            fileService.saveToFile(json);
+            fileService.saveToFile(json, ingredientFileName);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
