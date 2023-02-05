@@ -4,13 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import me.aminov.demo.model.Ingredients;
 import me.aminov.demo.model.Recipe;
 import me.aminov.demo.services.RecipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
 
 @RestController
 @RequestMapping("/Recipe")
@@ -22,8 +21,6 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-
-    Recipe recipe = new Recipe("Пюре", 1, new ArrayList<>(), new ArrayList<>());
     @Operation(
             summary = "Добавление рецепта",
             description = "Необходимо передать с помощью JSON объект рецепта"

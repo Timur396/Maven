@@ -4,6 +4,7 @@ import me.aminov.demo.services.FileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,14 +15,12 @@ public class FilesServiceImpl implements FileService {
     @Value("${path.to.data.file}")
     private String dataFilePath;
 
-    @Value("${name.of.data.file}")
-    private String dataFileName;
 
     @Override
-    public boolean saveToFile(String json,String fileName) {
+    public boolean saveToFile(String json, String fileName) {
         try {
-            cleanDataFile();
-            Files.writeString(Path.of(dataFilePath,dataFileName ), json);
+            cleanRecipeFile(fileName);
+            Files.writeString(Path.of(dataFilePath, fileName), json);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -31,18 +30,19 @@ public class FilesServiceImpl implements FileService {
     }
 
     @Override
-    public String readFromFiles() {
+    public String readFromFiles(String fileName) {
         try {
-            return Files.readString(Path.of(dataFilePath, dataFileName));
+            return Files.readString(Path.of(dataFilePath, fileName));
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new RuntimeException();
         }
     }
 
-    private boolean cleanDataFile() {
+    @Override
+    public boolean cleanRecipeFile(String fileName) {
         try {
-            Path path = Path.of(dataFilePath, dataFileName);
+            Path path = Path.of(dataFilePath, fileName);
             Files.deleteIfExists(path);
             Files.createFile(path);
             return true;
@@ -50,6 +50,15 @@ public class FilesServiceImpl implements FileService {
             e.printStackTrace();
             return false;
         }
+    }
 
+    @Override
+    public File getFile(String fileName) {
+        return null;
     }
 }
+
+
+
+
+
