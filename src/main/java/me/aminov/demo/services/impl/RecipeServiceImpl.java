@@ -8,10 +8,8 @@ import me.aminov.demo.services.FileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.PostConstruct;
+import java.util.*;
 
 @Service
 public class RecipeServiceImpl implements me.aminov.demo.services.RecipeService {
@@ -30,13 +28,10 @@ public class RecipeServiceImpl implements me.aminov.demo.services.RecipeService 
     public void addRecipe(Recipe recipe) {
         recipeMap.put(counter++, recipe);
         saveToRecipeFile();
-
     }
     @Override
-    public Recipe getRecipe(int number) {
-        recipeMap.get(number);
-
-        return null;
+    public Recipe getRecipe(int counter) {
+        return recipeMap.get(counter);
     }
     @Override
     public void editRecipe(int id, Recipe newRecipe) {
@@ -49,28 +44,30 @@ public class RecipeServiceImpl implements me.aminov.demo.services.RecipeService 
     }
 
     @Override
-    public List<Recipe> getAllRecipe() {
-        ArrayList<Recipe> temp = new ArrayList<>();
-        for (Map.Entry<Integer, Recipe> all : recipeMap.entrySet()) {
-            temp.add(all.getValue());
-        }return temp;
+    public Collection<Recipe> getAllRecipe() {
+        return Collections.unmodifiableCollection(recipeMap.values());
     }
+
     private void saveToRecipeFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(recipeMap);
             fileService.saveToFile(json,recipeFileName);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Ошибка при сохранинии файла");
         }
 
     }
-//    private void readFromFile() {
-//        String json = fileService.readFromFiles(recipeFileName);
-//        try {
-//            recipeMap =  new ObjectMapper().readValue(json, new TypeReference<HashMap<Integer,Recipe >>() {
-//            });
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
+    private void readFromFile() {
+        String json = fileService.readFromFiles(recipeFileName);
+        try {
+            recipeMap =  new ObjectMapper().readValue(json, new TypeReference<HashMap<Integer,Recipe >>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Ошибка при чтении файла");
+        }
+    }
+//    @PostConstruct
+//    private void init() {
+//        readFromFile();
 //    }
 }
