@@ -9,6 +9,9 @@ import me.aminov.demo.services.RecipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 @RestController
@@ -31,10 +34,10 @@ public class RecipeController {
                     description = "Рецепт добавлен"
             )
     })
-    @PostMapping("/recipe")
-    public Recipe addRecipe(@RequestBody Recipe recipe) {
+    @PostMapping("/add")
+    public ResponseEntity<Recipe> addRecipe(@Valid @RequestBody Recipe recipe) {
         recipeService.addRecipe(recipe);
-        return recipeService.getRecipe(0);
+        return ResponseEntity.ok(recipe);
     }
     @Operation(
             summary = "Показать рецепт"
@@ -44,13 +47,13 @@ public class RecipeController {
                     responseCode = "200"
             )
     })
-    @GetMapping("/recipeId")
+    @GetMapping("/{id}")
     public ResponseEntity<Recipe> getRecipeId(@PathVariable int id) {
         Recipe result = recipeService.getRecipe(id);
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(result);
     }
     @Operation(
             summary = "Изменить рецепт ",
@@ -82,4 +85,12 @@ public class RecipeController {
         recipeService.deleteRecipe(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/All")
+    @Operation( summary = "Поиск всех рецептов",
+            description = "выводит сразу все рецепты")
+    public Collection<Recipe> getAllRecipes() {
+        return recipeService.getAllRecipe();
+    }
+
 }

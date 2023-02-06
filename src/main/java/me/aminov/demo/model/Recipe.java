@@ -6,7 +6,9 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.Collection;
 import java.util.List;
+
 @Data
 @EqualsAndHashCode
 public class Recipe {
@@ -17,5 +19,6 @@ public class Recipe {
     private int timeCooking;
     private final List<Ingredients> ingredientsList;
     private final List<String> steps;
+
 }
 

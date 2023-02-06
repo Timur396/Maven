@@ -2,6 +2,7 @@ package me.aminov.demo.services;
 
 import me.aminov.demo.model.Recipe;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface RecipeService {
@@ -13,5 +14,5 @@ public interface RecipeService {
 
     void deleteRecipe(int counter);
 
-    List<Recipe> getAllRecipe();
+    Collection<Recipe> getAllRecipe();
 }

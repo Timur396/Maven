@@ -1,1 +1,8 @@
-{}
+{"0":{"name":"Каша","timeCooking":20,
+  "ingredientsList":[{"name":"овсянка","numberOfIngredients":200,"measure":"гр"}],"steps":["string"]},
+
+  "1":{"name":"Каша","timeCooking":20,
+    "ingredientsList":[{"name":"овсянка","numberOfIngredients":200,"measure":"гр"}],"steps":["string"]},
+
+  "2":{"name":"плов","timeCooking":50,
+    "ingredientsList":[{"name":"мясо","numberOfIngredients":300,"measure":"гр"},{"name":"рис","numberOfIngredients":200,"measure":"гр"}],"steps":["string"]}}
