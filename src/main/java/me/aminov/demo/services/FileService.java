@@ -1,6 +1,7 @@
 package me.aminov.demo.services;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public interface FileService {
 
@@ -9,5 +10,7 @@ public interface FileService {
     String readFromFiles(String fileName);
 
     boolean cleanRecipeFile(String fileName);
-    File getFile(String fileName);
+    File getDataFile(String fileName);
+
+    Path createTempFile(String suffix);
 }

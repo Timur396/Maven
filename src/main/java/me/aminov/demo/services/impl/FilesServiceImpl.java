@@ -53,12 +53,19 @@ public class FilesServiceImpl implements FileService {
     }
 
     @Override
-    public File getFile(String fileName) {
-        return null;
+    public File getDataFile(String fileName) {
+        return new File(dataFilePath + "/" + fileName);
+    }
+
+    @Override
+    public Path createTempFile(String suffix) {
+        try {
+            return Files.createTempFile(Path.of(dataFilePath), "tempFile", suffix);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
-
-
 
 
 

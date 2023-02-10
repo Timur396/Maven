@@ -10,12 +10,13 @@ import me.aminov.demo.services.FileService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class IngredientServiceImpl implements me.aminov.demo.services.IngredientService {
-    @Value(value = "${name.of.ingredient.file}")
+    @Value("${name.of.ingredient.file}")
     private String ingredientFileName;
     final private FileService fileService;
     Map<Integer, Ingredients>ingredientsMap=new HashMap<>();
@@ -30,7 +31,7 @@ public class IngredientServiceImpl implements me.aminov.demo.services.Ingredient
     }
     @Override
     public Ingredients getIngredient(int number) {
-        return null;
+        return ingredientsMap.get(number);
     }
     @Override
     public void deleteIngridients(int id) {
@@ -41,7 +42,6 @@ public class IngredientServiceImpl implements me.aminov.demo.services.Ingredient
         ingredientsMap.put(id, ingredients);
     }
 
-
     private void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(ingredientsMap);
@@ -49,9 +49,7 @@ public class IngredientServiceImpl implements me.aminov.demo.services.Ingredient
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
     }
-
     private void readFromFile() {
         String json = fileService.readFromFiles(ingredientFileName);
         try {
@@ -61,7 +59,6 @@ public class IngredientServiceImpl implements me.aminov.demo.services.Ingredient
             throw new RuntimeException(e);
         }
     }
-
     @PostConstruct
     private void init() {
         readFromFile();
