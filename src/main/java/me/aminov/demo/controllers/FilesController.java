@@ -19,7 +19,7 @@ public class FilesController {
     @Value("${name.of.recipe.file}")
     private String recipeFileName;
 
-    @Value("${name.of.ingredient.file}")
+  @Value("${name.of.ingredient.file}")
     private String ingredientFileName;
     private final FileService fileService;
 

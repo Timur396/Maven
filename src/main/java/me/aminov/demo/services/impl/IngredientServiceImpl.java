@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Service
 public class IngredientServiceImpl implements me.aminov.demo.services.IngredientService {
-    @Value("${name.of.ingredient.file}")
+    @Value(value = "${name.of.ingredient.file}")
     private String ingredientFileName;
     final private FileService fileService;
     Map<Integer, Ingredients>ingredientsMap=new HashMap<>();
