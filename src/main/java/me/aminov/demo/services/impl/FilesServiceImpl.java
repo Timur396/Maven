@@ -15,6 +15,12 @@ public class FilesServiceImpl implements FileService {
     @Value("${path.to.data.file}")
     private String dataFilePath;
 
+    @Value("${name.of.recipe.file}")
+    public static String recipeFileName;
+
+    @Value("${name.of.ingredient.file}")
+    public static String ingredientFileName;
+
 
     @Override
     public boolean saveToFile(String json, String fileName) {

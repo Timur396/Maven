@@ -1,8 +1,8 @@
 package me.aminov.demo.controllers;
 
 import me.aminov.demo.services.FileService;
+import me.aminov.demo.services.impl.FilesServiceImpl;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,13 +16,10 @@ import java.io.*;
 @RestController
 @RequestMapping("/files")
 public class FilesController {
-    @Value("${name.of.recipe.file}")
-    private String recipeFileName;
 
-  @Value("${name.of.ingredient.file}")
-    private String ingredientFileName;
+
+
     private final FileService fileService;
-
 
     public FilesController(FileService fileService) {
         this.fileService = fileService;
@@ -30,7 +27,7 @@ public class FilesController {
 
     @GetMapping(value = "/export/recipe",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InputStreamResource> downloadRecipeFile() throws FileNotFoundException {
-        File recipeFile = fileService.getDataFile(recipeFileName);
+        File recipeFile = fileService.getDataFile(FilesServiceImpl.recipeFileName);
         if (recipeFile.exists()) {
             InputStreamResource resource = new InputStreamResource((new FileInputStream(recipeFile)));
             return ResponseEntity.ok()
@@ -45,7 +42,7 @@ public class FilesController {
 
     @GetMapping("/export/ingridient")
     public ResponseEntity<InputStreamResource> downloadIngridientFile() throws FileNotFoundException {
-        File ingridientFile = fileService.getDataFile(ingredientFileName);
+        File ingridientFile = fileService.getDataFile(FilesServiceImpl.recipeFileName);
         if (ingridientFile.exists()) {
             InputStreamResource resource = new InputStreamResource((new FileInputStream(ingridientFile)));
             return ResponseEntity.ok()
@@ -60,8 +57,8 @@ public class FilesController {
 
     @PostMapping(value = "/import/recipe",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> uploadDataRecipeFile(@RequestParam MultipartFile file) {
-        fileService.cleanRecipeFile(recipeFileName);
-        File dataRecipeFile = fileService.getDataFile(recipeFileName);
+        fileService.cleanRecipeFile(FilesServiceImpl.recipeFileName);
+        File dataRecipeFile = fileService.getDataFile(FilesServiceImpl.recipeFileName);
         try (FileOutputStream fos = new FileOutputStream(dataRecipeFile)) {
             IOUtils.copy(file.getInputStream(), fos);
             return ResponseEntity.ok().build();
@@ -72,8 +69,8 @@ public class FilesController {
     }
     @PostMapping(value = "/import/ingredient",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> uploadDataIngredientFile(@RequestParam MultipartFile file) {
-        fileService.cleanRecipeFile(ingredientFileName);
-        File dataIngredientFile = fileService.getDataFile(ingredientFileName);
+        fileService.cleanRecipeFile(FilesServiceImpl.ingredientFileName);
+        File dataIngredientFile = fileService.getDataFile(FilesServiceImpl.ingredientFileName);
         try (FileOutputStream fos = new FileOutputStream(dataIngredientFile)) {
             IOUtils.copy(file.getInputStream(), fos);
             return ResponseEntity.ok().build();
