@@ -14,18 +14,27 @@ public class FilesServiceImpl implements FileService {
 
     @Value("${path.to.data.file}")
     private String dataFilePath;
-
+    @Value(value = "${name.of.ingredient.file}")
+    private String ingredientFileName;
     @Value("${name.of.recipe.file}")
-    public static String recipeFileName;
-
-    @Value("${name.of.ingredient.file}")
-    public static String ingredientFileName;
-
+    public String recipeFileName;
+@Override
+    public String getDataFilePath() {
+        return dataFilePath;
+    }
+    @Override
+    public String getIngredientFileName() {
+        return ingredientFileName;
+    }
+    @Override
+    public String getRecipeFileName() {
+        return recipeFileName;
+    }
 
     @Override
     public boolean saveToFile(String json, String fileName) {
         try {
-            cleanRecipeFile(fileName);
+            cleanDataFile(fileName);
             Files.writeString(Path.of(dataFilePath, fileName), json);
             return true;
         } catch (IOException e) {
@@ -46,9 +55,9 @@ public class FilesServiceImpl implements FileService {
     }
 
     @Override
-    public boolean cleanRecipeFile(String fileName) {
+    public boolean cleanDataFile(String fileName) {
+        Path path = Path.of(dataFilePath, fileName);
         try {
-            Path path = Path.of(dataFilePath, fileName);
             Files.deleteIfExists(path);
             Files.createFile(path);
             return true;

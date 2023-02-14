@@ -17,8 +17,6 @@ import java.io.*;
 @RequestMapping("/files")
 public class FilesController {
 
-
-
     private final FileService fileService;
 
     public FilesController(FileService fileService) {
@@ -27,7 +25,7 @@ public class FilesController {
 
     @GetMapping(value = "/export/recipe",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InputStreamResource> downloadRecipeFile() throws FileNotFoundException {
-        File recipeFile = fileService.getDataFile(FilesServiceImpl.recipeFileName);
+        File recipeFile = fileService.getDataFile(fileService.getRecipeFileName());
         if (recipeFile.exists()) {
             InputStreamResource resource = new InputStreamResource((new FileInputStream(recipeFile)));
             return ResponseEntity.ok()
@@ -42,7 +40,7 @@ public class FilesController {
 
     @GetMapping("/export/ingridient")
     public ResponseEntity<InputStreamResource> downloadIngridientFile() throws FileNotFoundException {
-        File ingridientFile = fileService.getDataFile(FilesServiceImpl.recipeFileName);
+        File ingridientFile = fileService.getDataFile(fileService.getIngredientFileName());
         if (ingridientFile.exists()) {
             InputStreamResource resource = new InputStreamResource((new FileInputStream(ingridientFile)));
             return ResponseEntity.ok()
@@ -57,8 +55,8 @@ public class FilesController {
 
     @PostMapping(value = "/import/recipe",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> uploadDataRecipeFile(@RequestParam MultipartFile file) {
-        fileService.cleanRecipeFile(FilesServiceImpl.recipeFileName);
-        File dataRecipeFile = fileService.getDataFile(FilesServiceImpl.recipeFileName);
+        fileService.cleanDataFile(fileService.getRecipeFileName());
+        File dataRecipeFile = fileService.getDataFile(fileService.getRecipeFileName());
         try (FileOutputStream fos = new FileOutputStream(dataRecipeFile)) {
             IOUtils.copy(file.getInputStream(), fos);
             return ResponseEntity.ok().build();
@@ -69,8 +67,8 @@ public class FilesController {
     }
     @PostMapping(value = "/import/ingredient",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> uploadDataIngredientFile(@RequestParam MultipartFile file) {
-        fileService.cleanRecipeFile(FilesServiceImpl.ingredientFileName);
-        File dataIngredientFile = fileService.getDataFile(FilesServiceImpl.ingredientFileName);
+        fileService.cleanDataFile(fileService.getIngredientFileName());
+        File dataIngredientFile = fileService.getDataFile(fileService.getIngredientFileName());
         try (FileOutputStream fos = new FileOutputStream(dataIngredientFile)) {
             IOUtils.copy(file.getInputStream(), fos);
             return ResponseEntity.ok().build();
