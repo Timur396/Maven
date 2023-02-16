@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 {
   "0": {
-    "name": "string",
-    "numberOfIngredients": 0,
-    "measure": "string"
+    "name": "мясо",
+    "numberOfIngredients": 500,
+    "measure": "гр"
   },
   "1": {
     "name": "мясо",
@@ -11,6 +10,3 @@
     "measure": "гр"
   }
 }
-=======
-{"0":{"name":"string","numberOfIngredients":0,"measure":"string"},"1":{"name":"мясо","numberOfIngredients":500,"measure":"гр"}}
->>>>>>> origin/master5

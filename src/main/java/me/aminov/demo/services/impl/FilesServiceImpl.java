@@ -17,7 +17,7 @@ public class FilesServiceImpl implements FileService {
     @Value(value = "${name.of.ingredient.file}")
     private String ingredientFileName;
     @Value("${name.of.recipe.file}")
-    public String recipeFileName;
+    private String recipeFileName;
 @Override
     public String getDataFilePath() {
         return dataFilePath;

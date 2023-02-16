@@ -63,11 +63,11 @@ public class RecipeServiceImpl implements me.aminov.demo.services.RecipeService 
             recipeMap =  new ObjectMapper().readValue(json, new TypeReference<HashMap<Integer,Recipe >>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Ошибка при чтении файла");
+            e.printStackTrace();
         }
     }
-//    @PostConstruct
-//    private void init() {
-//        readFromFile();
-//    }
+    @PostConstruct
+    private void init() {
+        readFromFile();
+    }
 }
