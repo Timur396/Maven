@@ -10,6 +10,8 @@ import me.aminov.demo.services.FileService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.FileNotFoundException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,14 +53,19 @@ public class IngredientServiceImpl implements me.aminov.demo.services.Ingredient
         }
     }
     private void readFromFile() {
-        String json = fileService.readFromFiles(ingredientFileName);
         try {
-            ingredientsMap =  new ObjectMapper().readValue(json, new TypeReference<HashMap<Integer,Ingredients>>() {
-            });
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            if (Files.exists(Path.of(ingredientFileName))) {
+                String json = fileService.readFromFiles(ingredientFileName);
+                ingredientsMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<Integer, Ingredients>>() {
+                });
+            } else {
+                throw new FileNotFoundException();
+            }
+        } catch (JsonProcessingException | FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
+
     @PostConstruct
     private void init() {
         readFromFile();

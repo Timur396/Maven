@@ -6,12 +6,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import me.aminov.demo.model.Recipe;
 import me.aminov.demo.services.RecipeService;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+
 
 
 @RestController
@@ -39,6 +47,7 @@ public class RecipeController {
         recipeService.addRecipe(recipe);
         return ResponseEntity.ok(recipe);
     }
+
     @Operation(
             summary = "Показать рецепт"
     )
@@ -55,6 +64,7 @@ public class RecipeController {
         }
         return ResponseEntity.ok(result);
     }
+
     @Operation(
             summary = "Изменить рецепт ",
             description = "Введите id рецепта, который нужно изменить"
@@ -70,6 +80,7 @@ public class RecipeController {
         recipeService.editRecipe(id, recipe);
         return ResponseEntity.ok().body(recipe);
     }
+
     @Operation(
             summary = "Удалить рецепт ",
             description = "Введите id рецепта, который нужно удалить"
@@ -87,10 +98,29 @@ public class RecipeController {
     }
 
     @GetMapping("/All")
-    @Operation( summary = "Поиск всех рецептов",
+    @Operation(summary = "Поиск всех рецептов",
             description = "выводит сразу все рецепты")
     public Collection<Recipe> getAllRecipes() {
         return recipeService.getAllRecipe();
     }
 
+    @GetMapping("/gettxtfile")
+    public ResponseEntity<Object> getTxtFile() {
+        try {
+            Path path =  recipeService.createRecipeTxt();
+            if (Files.size(path) == 0) {
+                return ResponseEntity.noContent().build();
+            }
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(path.toFile()));
+            return ResponseEntity.ok()
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .contentLength(Files.size(path))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"recipeBook.txt\"")
+                    .body(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.toString());
+        }
+
+    }
 }
